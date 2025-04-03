@@ -1,0 +1,20 @@
+﻿@model GetDepartmentByIdDto
+@{
+    ViewData["Title"] = "UpdateDepartment";
+}
+
+<h3>Bölüm Güncelle</h3>
+<br />
+
+<form method="post">
+
+    <input type="hidden" asp-for="DepartmentId" />
+    <label>Bölüm Adı</label>
+    <input type="text" asp-for="DepartmentName" class="form-control" />
+    <br />
+    <label>Açıklama</label>
+    <input type="text" asp-for="Description" class="form-control" />
+    <br />
+    <button class="btn btn-info">Güncelle</button>
+
+</form>
