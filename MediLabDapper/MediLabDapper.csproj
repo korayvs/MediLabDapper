@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Mantis-1.0.0\**" />
+    <Content Remove="wwwroot\Mantis-1.0.0\**" />
+    <EmbeddedResource Remove="wwwroot\Mantis-1.0.0\**" />
+    <None Remove="wwwroot\Mantis-1.0.0\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\mazer-1.0.0\.github\FUNDING.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
