@@ -1,0 +1,67 @@
+﻿@model UpdateAboutDto
+@{
+    ViewData["Title"] = "UpdateAbout";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Hakkımızda Bilgisi Güncelle
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
+
+                <input type="hidden" asp-for="AboutId" />
+                <div class="mb-3">
+                    <label class="form-label">Açıklama</label>
+                    <textarea asp-for="AboutDescription" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="AboutDescription" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Başlık - 1</label>
+                    <input type="text" asp-for="Title1" class="form-control" />
+                    <span asp-validation-for="Title1" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Alt Açıklama - 1</label>
+                    <textarea asp-for="Description1" rows="2" class="form-control"></textarea>
+                    <span asp-validation-for="Description1" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Başlık - 2</label>
+                    <input type="text" asp-for="Title2" class="form-control" />
+                    <span asp-validation-for="Title2" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Alt Açıklama - 2</label>
+                    <textarea asp-for="Description2" rows="2" class="form-control"></textarea>
+                    <span asp-validation-for="Description2" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Başlık - 3</label>
+                    <input type="text" asp-for="Title3" class="form-control" />
+                    <span asp-validation-for="Title3" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Alt Açıklama - 3</label>
+                    <textarea asp-for="Description3" rows="2" class="form-control"></textarea>
+                    <span asp-validation-for="Description3" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/About/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
