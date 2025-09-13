@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ResultAboutDto>
+﻿@model IEnumerable<ResultServiceDto>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Layout.cshtml";
@@ -6,7 +6,7 @@
 }
 
 <div class="container mt-4">
-    <h2 class="fw-bold mb-3">Hakkımızda</h2>
+    <h2 class="fw-bold mb-3">Hizmetler</h2>
 
     <div class="card shadow-sm rounded-3">
         <div class="card-body p-0">
@@ -14,7 +14,8 @@
                 <thead class="table-light">
                     <tr>
                         <th style="width:5%">#</th>
-                        <th style="width:70%">Açıklama</th>
+                        <th style="width:20%">Başlık</th>
+                        <th style="width:50%">Açıklama</th>
                         <th style="width:25%" class="text-center">İşlemler</th>
                     </tr>
                 </thead>
@@ -24,22 +25,23 @@
                         count++;
                         <tr>
                             <td>@count</td>
+                            <td>@item.Title</td>
                             <td>
-                                @(item.AboutDescription.Length > 70
-                                    ? item.AboutDescription.Substring(0, 70) + "..."
-                                    : item.AboutDescription)
+                                @(item.Description.Length > 70
+                                    ? item.Description.Substring(0, 70) + "..."
+                                    : item.Description)
                             </td>
                             <td class="text-center">
-                                <a href="/About/UpdateAbout/@item.AboutId" class="btn btn-sm btn-info rounded-pill me-2">✏️</a>
-                                <button type="button" class="btn btn-sm btn-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.AboutId">
+                                <a href="/Service/UpdateService/@item.ServiceId" class="btn btn-sm btn-info rounded-pill me-2">✏️</a>
+                                <button type="button" class="btn btn-sm btn-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.ServiceId">
                                     🗑️
                                 </button>
 
-                                <div class="modal fade" id="deleteModal-@item.AboutId" tabindex="-1" aria-labelledby="deleteModalLabel-@item.AboutId" aria-hidden="true">
+                                <div class="modal fade" id="deleteModal-@item.ServiceId" tabindex="-1" aria-labelledby="deleteModalLabel-@item.ServiceId" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content rounded-3 shadow">
                                             <div class="modal-header">
-                                                <h5 class="modal-title w-100 text-center fs-4 fw-bold" id="deleteModalLabel-@item.AboutId">Uyarı !</h5>
+                                                <h5 class="modal-title w-100 text-center fs-4 fw-bold" id="deleteModalLabel-@item.ServiceId">Uyarı !</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -47,7 +49,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
-                                                <a href="/About/DeleteAbout/@item.AboutId" class="btn btn-danger">Sil</a>
+                                                <a href="/Service/DeleteService/@item.ServiceId" class="btn btn-danger">Sil</a>
                                             </div>
                                         </div>
                                     </div>
@@ -61,6 +63,6 @@
     </div>
 
     <div class="mt-3">
-        <a href="/About/CreateAbout" class="btn btn-primary rounded-pill shadow-sm px-4">Yeni Hakkımızda Ekle</a>
+        <a href="/Service/CreateService" class="btn btn-primary rounded-pill shadow-sm px-4">Yeni Hizmet Ekle</a>
     </div>
 </div>

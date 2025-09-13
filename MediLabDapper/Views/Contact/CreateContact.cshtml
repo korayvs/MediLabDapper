@@ -1,0 +1,42 @@
+﻿@model CreateContactDto
+@{
+    ViewData["Title"] = "CreateContact";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Yeni İletişim Bilgisi Ekle
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Telefon Numarası</label>
+                    <input type="text" asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Adres</label>
+                    <textarea asp-for="Location" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/Contact/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,34 +1,51 @@
 ﻿@model GetDoctorByIdDto
-    @{
+@{
     ViewData["Title"] = "UpdateDoctor";
     Layout = "~/Views/AdminLayout/Layout.cshtml";
 }
 
-<h1>Doktor Güncelle</h1>
-<br />
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Doktor Bilgisi Güncelle
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
 
-<form method="post">
+                <input type="hidden" asp-for="DoctorId" />
+                <div class="mb-3">
+                    <label class="form-label">Resim Url</label>
+                    <input type="text" asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
 
-    <input type="hidden" asp-for="DoctorId" />
-    <div class="form-group">
-        <label>Ad Soyad</label>
-        <input type="text" asp-for="NameSurname" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Resim Url</label>
-        <input type="text" asp-for="ImageUrl" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Açıklama</label>
-        <input type="text" asp-for="Description" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Bölüm</label>
-        <select asp-for="DepartmentId" asp-items="@ViewBag.departments" class="form-control">
-            <option disabled>Bölüm Seçiniz</option>
-        </select>
-    </div>
+                <div class="mb-3">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" asp-for="NameSurname" class="form-control" />
+                    <span asp-validation-for="NameSurname" class="text-danger"></span>
+                </div>
 
-    <button class="btn btn-info mt-4">Güncelle</button>
+                <div class="mb-3">
+                    <label class="form-label">Bölüm</label>
+                    <select asp-for="DepartmentId" asp-items="@ViewBag.departments" class="form-select">
+                        <option disabled>Bölüm Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
 
-</form>
+                <div class="mb-3">
+                    <label class="form-label">Açıklama</label>
+                    <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>               
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/Department/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

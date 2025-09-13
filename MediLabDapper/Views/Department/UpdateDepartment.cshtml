@@ -1,20 +1,37 @@
 ﻿@model GetDepartmentByIdDto
 @{
     ViewData["Title"] = "UpdateDepartment";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
 }
 
-<h3>Bölüm Güncelle</h3>
-<br />
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Bölüm Bilgisi Güncelle
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
 
-<form method="post">
+                <input type="hidden" asp-for="DepartmentId" />
+                <div class="mb-3">
+                    <label class="form-label">Bölüm Adı</label>
+                    <input type="text" asp-for="DepartmentName" class="form-control" />
+                    <span asp-validation-for="DepartmentName" class="text-danger"></span>
+                </div>
 
-    <input type="hidden" asp-for="DepartmentId" />
-    <label>Bölüm Adı</label>
-    <input type="text" asp-for="DepartmentName" class="form-control" />
-    <br />
-    <label>Açıklama</label>
-    <input type="text" asp-for="Description" class="form-control" />
-    <br />
-    <button class="btn btn-info">Güncelle</button>
+                <div class="mb-3">
+                    <label class="form-label">Açıklama</label>
+                    <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
 
-</form>
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/Department/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

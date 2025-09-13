@@ -1,0 +1,62 @@
+﻿@model UpdateTestimonialDto
+@{
+    ViewData["Title"] = "UpdateTestimonial";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Değerlendirme Bilgisi Güncelle
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
+
+                <input type="hidden" asp-for="TestimonialId" />
+                <div class="mb-3">
+                    <label class="form-label">Resim</label>
+                    <input type="text" asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" asp-for="NameSurname" class="form-control" />
+                    <span asp-validation-for="NameSurname" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Meslek</label>
+                    <input type="text" asp-for="JobName" class="form-control" />
+                    <span asp-validation-for="JobName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Puan</label>
+                    <select asp-for="Review" class="form-control">
+                        <option selected disabled value="">Puan Seçin</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <span asp-validation-for="Review" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Yorum</label>
+                    <textarea asp-for="Comment" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="Comment" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/Testimonial/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
