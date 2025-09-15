@@ -1,0 +1,88 @@
+﻿@model CreateAppointmentDto
+@{
+    ViewData["Title"] = "CreateAppointment";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Yeni Hasta Randevusu Oluştur
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Ad Soyad</label>
+                    <input type="text" asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Telefon Numarası</label>
+                    <input type="text" asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tarih</label>
+                    <input type="date" asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Saat</label>
+                    <input type="time" asp-for="Time" class="form-control" />
+                    <span asp-validation-for="Time" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mesaj</label>
+                    <textarea asp-for="Message" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Bölüm</label>
+                    <select asp-for="DepartmentId" item="departmentId" class="form-control">
+                        <option value="">Bölüm Seçin</option>
+                        @foreach (var item in ViewBag.departments)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Doktor</label>
+                    <select asp-for="DoctorId" item="DoctorId" class="form-control">
+                        <option value="">Lütfen Önce Bölüm Seçin</option>
+                    </select>
+                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Durumu</label>
+                    <select asp-for="IsApproved" asp-items="Html.GetEnumSelectList<StatusAppointmentDto>()" class="form-control">
+                        <option value="">Durumu Seçin</option>
+                    </select>
+                    <span asp-validation-for="IsApproved" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/Appointment/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

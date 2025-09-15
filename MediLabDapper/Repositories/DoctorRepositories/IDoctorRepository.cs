@@ -10,5 +10,7 @@ namespace MediLabDapper.Repositories.DoctorRepositories
         Task CreateDoctorAsync(CreateDoctorDto createDoctorDto);
         Task UpdateDoctorAsync(UpdateDoctorDto updateDoctorDto);
         Task DeleteDoctorAsync(int id);
+        Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorWithDepartmentAsync();
+        Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorWithDepartmentByIdAsync(int departmentId);
     }
 }

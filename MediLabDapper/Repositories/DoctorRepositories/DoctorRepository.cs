@@ -9,6 +9,21 @@ namespace MediLabDapper.Repositories.DoctorRepositories
     public class DoctorRepository(DapperContext _context) : IDoctorRepository
     {
         private readonly IDbConnection _db = _context.CreateConnection();
+
+        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorWithDepartmentAsync()
+        {
+            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId";
+            return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query);
+        }
+
+        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorWithDepartmentByIdAsync(int departmentId)
+        {
+            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId where Doctors.DepartmentId = @departmentId";
+            var parameters = new DynamicParameters();
+            parameters.Add("@DepartmentId", departmentId);
+            return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query, parameters);
+        }
+
         public async Task CreateDoctorAsync(CreateDoctorDto createDoctorDto)
         {
             var query = "insert into doctors (namesurname, ImageUrl, description, departmentId) values (@NameSurname, @ImageUrl, @Description, @DepartmentId)";
