@@ -1,0 +1,84 @@
+﻿@model AllCreateAppointmentDto
+@{
+    ViewData["Title"] = "CreateAllAppointment";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm rounded-3">
+        <div class="card-header bg-primary text-white fw-bold">
+            Yeni Hasta Randevusu Oluştur
+        </div>
+        <br />
+        <div class="card-body">
+            <form method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Bölüm</label>
+                    <select asp-for="DepartmentId" id="DepartmentId" class="form-control">
+                        <option value="" disabled selected>Bölüm Seçin</option>
+                        @foreach (var item in ViewBag.departments)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Doktor</label>
+                    <select asp-for="DoctorId" id="DoctorId" class="form-control">
+                        <option value="">Lütfen Önce Bölüm Seçin</option>
+                    </select>
+                    <span asp-validation-for="DoctorId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tarih</label>
+                    <input type="date" asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Saat</label>
+                    <input type="time" asp-for="Time" class="form-control" />
+                    <span asp-validation-for="Time" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-between">
+                    <a href="/AllAppointment/Index" class="btn btn-secondary px-4">Geri Dön</a>
+                    <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(function() {
+        $('#DepartmentId').on('change', function() {
+            var deptId = $(this).val();
+            var doctorSelect = $('#DoctorId');
+
+            doctorSelect.empty().append('<option value="" disabled selected>Seçiniz</option>');
+
+            if (!deptId) {
+                return;
+            }
+
+            $.get('/AllAppointment/GetDoctorsByDepartmentId', { departmentId: deptId })
+             .done(function(data) {
+                 data.forEach(function(item) {
+                     doctorSelect.append(
+                         '<option value="' + item.value + '">' + item.text + '</option>'
+                     );
+                 });
+             })
+             .fail(function(jqXHR, textStatus, errorThrown) {
+                 console.error('Doktorları getirirken hata oluştu:', textStatus, errorThrown);
+             });
+        });
+    });
+</script>

@@ -49,7 +49,7 @@ namespace MediLabDapper.Controllers
                                        Text = x.DepartmentName,
                                        Value = x.DepartmentId.ToString()
                                    }).ToList();
-            var doctors = await _doctorRepository.AllDoctorWithDepartmentByIdAsync(appointment.DepartmentId);
+            var doctors = await _doctorRepository.AllDoctorsWithDepartmentByIdAsync(appointment.DepartmentId);
             ViewBag.doctors = doctors.Select(x => new SelectListItem
             {
                 Text = x.NameSurname,
@@ -91,7 +91,7 @@ namespace MediLabDapper.Controllers
 
         public async Task<JsonResult> GetDoctorsByDepartment(int departmentId)
         {
-            var doctors = await _doctorRepository.AllDoctorWithDepartmentByIdAsync(departmentId);
+            var doctors = await _doctorRepository.AllDoctorsWithDepartmentByIdAsync(departmentId);
             var doctorList = doctors.Select(x => new SelectListItem
             {
                 Text = x.NameSurname,
@@ -114,7 +114,7 @@ namespace MediLabDapper.Controllers
                 Message = appointment.Message,
                 DoctorId = appointment.DoctorId,
                 DepartmentId = appointment.DepartmentId,
-                IsApproved = appointment.IsApproved
+                IsApproved = StatusAppointmentDto.Beklemede
             };
             await _appointmentRepository.UpdateAsync(updateAppointment);
             return RedirectToAction("Index");
@@ -134,7 +134,7 @@ namespace MediLabDapper.Controllers
                 Message = appointment.Message,
                 DoctorId = appointment.DoctorId,
                 DepartmentId = appointment.DepartmentId,
-                IsApproved = appointment.IsApproved
+                IsApproved = StatusAppointmentDto.Onaylı
             };
             await _appointmentRepository.UpdateAsync(updateAppointment);
             return RedirectToAction("Index");
@@ -154,7 +154,7 @@ namespace MediLabDapper.Controllers
                 Message = appointment.Message,
                 DoctorId = appointment.DoctorId,
                 DepartmentId = appointment.DepartmentId,
-                IsApproved = appointment.IsApproved
+                IsApproved = StatusAppointmentDto.Reddedildi
             };
             await _appointmentRepository.UpdateAsync(updateAppointment);
             return RedirectToAction("Index");

@@ -16,7 +16,6 @@
                         <th style="width:4%">#</th>
                         <th style="width:16%">Durum Değişikliği</th>
                         <th style="width:14%">Ad Soyad</th>
-                        <th style="width:14%">E-posta</th>
                         <th style="width:12%">Doktor</th>
                         <th style="width:12%">Departman</th>
                         <th style="width:12%">Tarih - Saat</th>
@@ -33,37 +32,36 @@
                             <td>
                                 @if (item.IsApproved == StatusAppointmentDto.Onaylı)
                                 {
-                                    <a href="/Appointment/DeclineAppointment/@item.AppointmentId" class="btn btn-outline-danger">Reddet</a>
-                                    <a href="/Appointment/WaitingAppointment/@item.AppointmentId" class="btn btn-outline-warning">Beklet</a>
+                                    <a href="/Appointment/DeclineAppointment/@item.AppointmentId" class="btn btn-sm btn-outline-danger rounded-pill me-1">Reddet</a>
+                                    <a href="/Appointment/WaitingAppointment/@item.AppointmentId" class="btn btn-sm btn-outline-warning rounded-pill">Beklet</a>
                                 }
                                 else if (item.IsApproved == StatusAppointmentDto.Reddedildi)
                                 {
-                                    <a href="/Appointment/ApprovedAppointment/@item.AppointmentId" class="btn btn-outline-success">Onayla</a>
-                                    <a href="/Appointment/WaitingAppointment/@item.AppointmentId" class="btn btn-outline-warning">Beklet</a>
+                                    <a href="/Appointment/ApprovedAppointment/@item.AppointmentId" class="btn btn-sm btn-outline-success rounded-pill me-1">Onayla</a>
+                                    <a href="/Appointment/WaitingAppointment/@item.AppointmentId" class="btn btn-sm btn-outline-warning rounded-pill">Beklet</a>
                                 }
                                 else
                                 {
-                                    <a href="/Appointment/ApprovedAppointment/@item.AppointmentId" class="btn btn-outline-success">Onayla</a>
-                                    <a href="/Appointment/DeclineAppointment/@item.AppointmentId" class="btn btn-outline-danger">Reddet</a>
+                                    <a href="/Appointment/ApprovedAppointment/@item.AppointmentId" class="btn btn-sm btn-outline-success rounded-pill me-1">Onayla</a>
+                                    <a href="/Appointment/DeclineAppointment/@item.AppointmentId" class="btn btn-sm btn-outline-danger rounded-pill">Reddet</a>
                                 }
                             </td>
                             <td>@item.FullName</td>
-                            <td>@item.Email</td>
                             <td>@item.DoctorName</td>
                             <td>@item.DepartmentName</td>
                             <td>@item.Date.ToString("dd-MM-yyyy") - @item.Time.ToString("hh\\:mm")</td>
                             <td>
                                 @if (item.IsApproved == StatusAppointmentDto.Onaylı)
                                 {
-                                    <span class="badge bg-label-success me-1">Onaylı</span>
+                                    <span class="badge rounded-pill bg-success-subtle text-success">Onaylı</span>
                                 }
                                 else if (item.IsApproved == StatusAppointmentDto.Reddedildi)
                                 {
-                                    <span class="badge bg-label-danger me-1">Reddedildi</span>
+                                    <span class="badge rounded-pill bg-danger-subtle text-danger">Reddedildi</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-label-warning me-1">Beklemede</span>
+                                    <span class="badge rounded-pill bg-warning-subtle text-warning">Beklemede</span>
                                 }
                             </td>
                             <td class="text-center">

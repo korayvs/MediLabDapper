@@ -10,15 +10,15 @@ namespace MediLabDapper.Repositories.DoctorRepositories
     {
         private readonly IDbConnection _db = _context.CreateConnection();
 
-        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorWithDepartmentAsync()
+        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorsWithDepartmentAsync()
         {
-            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId";
+            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Doctors.Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId";
             return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query);
         }
 
-        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorWithDepartmentByIdAsync(int departmentId)
+        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorsWithDepartmentByIdAsync(int departmentId)
         {
-            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId where Doctors.DepartmentId = @departmentId";
+            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Doctors.Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId where Doctors.DepartmentId = @DepartmentId";
             var parameters = new DynamicParameters();
             parameters.Add("@DepartmentId", departmentId);
             return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query, parameters);
@@ -51,12 +51,6 @@ namespace MediLabDapper.Repositories.DoctorRepositories
             var parameters = new DynamicParameters();
             parameters.Add("@DoctorId", id);
             return await _db.QueryFirstOrDefaultAsync<GetDoctorByIdDto>(query, parameters);
-        }
-
-        public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> GetDoctorsWithDepartmentAsync()
-        {
-            var query = "select DoctorId, NameSurname, ImageUrl, Doctors.Description, DepartmentName from doctors inner join departments on Doctors.DepartmentId = Departments.DepartmentId";
-            return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query);
         }
 
         public async Task UpdateDoctorAsync(UpdateDoctorDto updateDoctorDto)

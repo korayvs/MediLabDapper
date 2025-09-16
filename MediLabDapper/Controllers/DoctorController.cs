@@ -10,8 +10,19 @@ namespace MediLabDapper.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var doctors = await _doctorRepository.GetDoctorsWithDepartmentAsync();
+            var doctors = await _doctorRepository.AllDoctorsWithDepartmentAsync();
             return View(doctors);
+        }
+
+        private async Task GetDepartments()
+        {
+            var departments = await _departmentRepository.GetAllDepartmentsAsync();
+            ViewBag.departments = (from department in departments
+                                   select new SelectListItem
+                                   {
+                                       Text = department.DepartmentName,
+                                       Value = department.DepartmentId.ToString()
+                                   }).ToList();
         }
 
         public async Task<IActionResult> DeleteDoctor(int id)
@@ -22,32 +33,25 @@ namespace MediLabDapper.Controllers
 
         public async Task<IActionResult> CreateDoctor()
         {
-            var departments = await _departmentRepository.GetAllDepartmentsAsync();
-            ViewBag.departments = (from x in departments
-                                   select new SelectListItem
-                                   {
-                                       Text = x.DepartmentName,
-                                       Value = x.DepartmentId.ToString()
-                                   }).ToList();
+            await GetDepartments();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateDoctor(CreateDoctorDto createDoctorDto)
         {
+            await GetDepartments();
+            if (!ModelState.IsValid)
+            {
+                return View(createDoctorDto);
+            }
             await _doctorRepository.CreateDoctorAsync(createDoctorDto);
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> UpdateDoctor(int id)
         {
-            var departments = await _departmentRepository.GetAllDepartmentsAsync();
-            ViewBag.departments = (from x in departments
-                                   select new SelectListItem
-                                   {
-                                       Text = x.DepartmentName,
-                                       Value = x.DepartmentId.ToString()
-                                   }).ToList();
+            await GetDepartments();
             var doctor = await _doctorRepository.GetDoctorByIdAsync(id);
             return View(doctor);
         }
@@ -55,6 +59,11 @@ namespace MediLabDapper.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateDoctor(UpdateDoctorDto updateDoctorDto)
         {
+            await GetDepartments();
+            if (!ModelState.IsValid)
+            {
+                return View(updateDoctorDto);
+            }
             await _doctorRepository.UpdateDoctorAsync(updateDoctorDto);
             return RedirectToAction("Index");
         }

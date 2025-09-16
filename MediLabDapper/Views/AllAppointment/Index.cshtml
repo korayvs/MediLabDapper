@@ -1,0 +1,94 @@
+﻿@model IEnumerable<ResultAppointmentDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold mb-3">Açık Randevular</h2>
+
+    <div class="card shadow-sm rounded-3">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:12%">Doktor</th>
+                        <th style="width:12%">Departman</th>
+                        <th style="width:12%">Tarih - Saat</th>
+                        <th style="width:6%" class="text-center">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.DoctorName</td>
+                            <td>@item.DepartmentName</td>
+                            <td>@item.Date.ToString("dd-MM-yyyy") - @item.Time.ToString("hh\\:mm")</td>
+                            <td class="text-center">
+                                <a href="/AllAppointment/UpdateAllAppointment/@item.AppointmentId" class="btn btn-sm btn-info rounded-pill me-2">✏️</a>
+                                <button type="button" class="btn btn-sm btn-danger rounded-pill" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.AppointmentId">
+                                    🗑️
+                                </button>
+
+                                <div class="modal fade" id="deleteModal-@item.AppointmentId" tabindex="-1" aria-labelledby="deleteModalLabel-@item.AppointmentId" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content rounded-3 shadow">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title w-100 text-center fs-4 fw-bold" id="deleteModalLabel-@item.AppointmentId">Uyarı !</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bu kaydı silmek istediğinize emin misiniz?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                                                <a href="/AllAppointment/DeleteAllAppointment/@item.AppointmentId" class="btn btn-danger">Sil</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="/AllAppointment/CreateAllAppointment" class="btn btn-primary rounded-pill shadow-sm px-4">Yeni Randevu Ekle</a>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h2 class="fw-bold mb-3">Dolu Randevular</h2>
+
+    <div class="card shadow-sm rounded-3">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:12%">Doktor</th>
+                        <th style="width:12%">Departman</th>
+                        <th style="width:12%">Tarih - Saat</th>
+                        <th style="width:6%" class="text-center">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.DoctorName</td>
+                            <td>@item.DepartmentName</td>
+                            <td>@item.Date.ToString("dd-MM-yyyy") - @item.Time.ToString("hh\\:mm")</td>
+                            <td class="text-center">
+                                <a href="/AllAppointment/UpdateAllAppointment/@item.AppointmentId" class="btn btn-sm btn-info rounded-pill me-2">Randevu Detayları</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
