@@ -2,7 +2,7 @@
 {
     public class AllUpdateAppointmentDto
     {
-        public int AllAppointmentId { get; set; }
+        public int AppointmentId { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan Time { get; set; }
         public int DoctorId { get; set; }

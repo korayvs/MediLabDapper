@@ -159,5 +159,38 @@ namespace MediLabDapper.Controllers
             await _appointmentRepository.UpdateAsync(updateAppointment);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> DetailAppointment(int id)
+        {
+            var appointment = await _appointmentRepository.GetByIdAsync(id);
+            var departments = await _departmentRepository.GetAllDepartmentsAsync();
+            ViewBag.departments = (from x in departments
+                                   select new SelectListItem
+                                   {
+                                       Text = x.DepartmentName,
+                                       Value = x.DepartmentId.ToString()
+                                   }).ToList();
+            var doctors = await _doctorRepository.AllDoctorsWithDepartmentByIdAsync(appointment.DepartmentId);
+            ViewBag.doctors = doctors.Select(x => new SelectListItem
+            {
+                Text = x.NameSurname,
+                Value = x.DoctorId.ToString()
+            }).ToList();
+
+            var updateAppointment = new UpdateAppointmentDto
+            {
+                AppointmentId = appointment.AppointmentId,
+                FullName = appointment.FullName,
+                Email = appointment.Email,
+                PhoneNumber = appointment.PhoneNumber,
+                Date = appointment.Date,
+                Time = appointment.Time,
+                Message = appointment.Message,
+                DoctorId = appointment.DoctorId,
+                DepartmentId = appointment.DepartmentId,
+                IsApproved = appointment.IsApproved
+            };
+            return View(updateAppointment);
+        }
     }
 }

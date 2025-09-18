@@ -1,18 +1,19 @@
-﻿@model CreateAppointmentDto
+﻿@model UpdateAppointmentDto
 @{
-    ViewData["Title"] = "CreateAppointment";
+    ViewData["Title"] = "UpdateAppointment";
     Layout = "~/Views/AdminLayout/Layout.cshtml";
 }
 
 <div class="container mt-4">
     <div class="card shadow-sm rounded-3">
         <div class="card-header bg-primary text-white fw-bold">
-            Yeni Hasta Randevusu Oluştur
+            Hasta Randevusu Güncelle
         </div>
         <br />
         <div class="card-body">
             <form method="post">
 
+                <input type="hidden" asp-for="AppointmentId" />
                 <div class="mb-3">
                     <label class="form-label">Ad Soyad</label>
                     <input type="text" asp-for="FullName" class="form-control" />
@@ -46,7 +47,10 @@
                 <div class="mb-3">
                     <label class="form-label">Doktor</label>
                     <select asp-for="DoctorId" id="DoctorId" class="form-control">
-                        <option value="">Lütfen Önce Bölüm Seçin</option>
+                        @foreach (var item in ViewBag.doctors)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
                     </select>
                     <span asp-validation-for="DoctorId" class="text-danger"></span>
                 </div>
@@ -61,7 +65,7 @@
                     <label class="form-label">Saat</label>
                     <input type="time" asp-for="Time" class="form-control" />
                     <span asp-validation-for="Time" class="text-danger"></span>
-                </div>               
+                </div>                
 
                 <div class="mb-3">
                     <label class="form-label">Mesaj</label>
@@ -90,23 +94,18 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     $(function() {
-        // When the "Department" dropdown value changes
         $('#DepartmentId').on('change', function() {
             var deptId = $(this).val();
             var doctorSelect = $('#DoctorId');
 
-             // Clear the doctor list and add the default disabled option
             doctorSelect.empty().append('<option value="" disabled selected>Seçiniz</option>');
-            
+
             if (!deptId) {
-                // If no department is selected, stop here
                 return;
             }
 
-           // Send AJAX request to fetch doctors by departmentId
             $.get('/AllAppointment/GetDoctorsByDepartmentId', { departmentId: deptId })
              .done(function(data) {
-                 // If data is an array, loop through and append each doctor as an option
                  data.forEach(function(item) {
                      doctorSelect.append(
                          '<option value="' + item.value + '">' + item.text + '</option>'
@@ -114,7 +113,6 @@
                  });
              })
              .fail(function(jqXHR, textStatus, errorThrown) {
-                 // If the request fails, log the error to the console
                  console.error('Doktorları getirirken hata oluştu:', textStatus, errorThrown);
              });
         });

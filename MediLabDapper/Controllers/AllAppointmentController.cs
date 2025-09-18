@@ -1,4 +1,5 @@
 ﻿using MediLabDapper.Dtos.AllAppointmentDtos;
+using MediLabDapper.Dtos.AppointmentDtos;
 using MediLabDapper.Repositories.AllAppointmentRepositories;
 using MediLabDapper.Repositories.AppointmentRepositories;
 using MediLabDapper.Repositories.DepartmentRepositories;
@@ -14,21 +15,25 @@ namespace MediLabDapper.Controllers
         {
             var appointments = await _appointmentRepository.AppointmentWithDocWithDepart();
             var appointmentList = appointments.OrderByDescending(x => x.Date).Where(x => x.FullName == null).ToList();
-
-            var notEmptyAppointmentList = await _appointmentRepository.AppointmentWithDocWithDepart();
-            ViewBag.NotEmptyAppointments = notEmptyAppointmentList.OrderByDescending(x => x.Date).Where(x => x.FullName != null).ToList();
             return View(appointmentList);
+        }
+
+        public async Task<IActionResult> FullyAppointment()
+        {
+            var fullyAppointment = await _appointmentRepository.AppointmentWithDocWithDepart();
+            ViewBag.fullyAppointments = fullyAppointment.OrderByDescending(x => x.Date).Where(x => x.FullName != null).ToList();
+            return View(fullyAppointment);
         }
 
         public async Task<IActionResult> CreateAllAppointment()
         {
             var departments = await _departmentRepository.GetAllDepartmentsAsync();
             ViewBag.departments = (from x in departments
-                                      select new SelectListItem
-                                      {
-                                          Text = x.DepartmentName,
-                                          Value = x.DepartmentId.ToString()
-                                      }).ToList();
+                                   select new SelectListItem
+                                   {
+                                       Text = x.DepartmentName,
+                                       Value = x.DepartmentId.ToString()
+                                   }).ToList();
             return View();
         }
 
@@ -47,29 +52,28 @@ namespace MediLabDapper.Controllers
         {
             var departments = await _departmentRepository.GetAllDepartmentsAsync();
             ViewBag.departments = (from x in departments
-                                      select new SelectListItem
-                                      {
-                                          Text = x.DepartmentName,
-                                          Value = x.DepartmentId.ToString()
-                                      }).ToList();
+                                   select new SelectListItem
+                                   {
+                                       Text = x.DepartmentName,
+                                       Value = x.DepartmentId.ToString()
+                                   }).ToList();
 
             var value = await _allAppointmentRepository.GetByIdAsync(id);
 
             var doctors = await _doctorRepository.AllDoctorsWithDepartmentByIdAsync(value.DepartmentId);
-            ViewBag.doctors = doctors
-           .Select(x => new SelectListItem
-           {
-               Text = x.NameSurname,
-               Value = x.DoctorId.ToString()
-           }).ToList();
+            ViewBag.doctors = doctors.Select(x => new SelectListItem
+            {
+                Text = x.NameSurname,
+                Value = x.DoctorId.ToString()
+            }).ToList();
 
             var updateAppointment = new AllUpdateAppointmentDto
             {
-                AllAppointmentId = value.AllAppointmentId,
+                AppointmentId = value.AppointmentId,
                 Date = value.Date,
                 Time = value.Time,
                 DoctorId = value.DoctorId,
-                DepartmentId = value.DepartmentId               
+                DepartmentId = value.DepartmentId
             };
             return View(updateAppointment);
         }

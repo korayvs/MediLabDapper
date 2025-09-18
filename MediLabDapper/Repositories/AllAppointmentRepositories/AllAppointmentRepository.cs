@@ -32,7 +32,7 @@ namespace MediLabDapper.Repositories.AllAppointmentRepositories
 
         public Task<AllGetAppointmentByIdDto> GetByIdAsync(int id)
         {
-            var query = "select AppointmentId, Date, Time, Appointments.DoctorId, Appointments.DepartmentId, DoctorName, DepartmentName from Appointments Inner Join Doctors On Doctors.DoctorId = Appointments.DoctorId Inner Join Departments On Departments.DepartmentId = Appointments.DepartmentId where AppointmentId = @AppointmentId";
+            var query = "select AppointmentId, Date, Time, Appointments.DoctorId, Appointments.DepartmentId, NameSurname, DepartmentName from Appointments Inner Join Doctors On Doctors.DoctorId = Appointments.DoctorId Inner Join Departments On Departments.DepartmentId = Appointments.DepartmentId where AppointmentId = @AppointmentId";
             var parameters = new DynamicParameters();
             parameters.Add("@AppointmentId", id);
             return _db.QueryFirstOrDefaultAsync<AllGetAppointmentByIdDto>(query, parameters);
