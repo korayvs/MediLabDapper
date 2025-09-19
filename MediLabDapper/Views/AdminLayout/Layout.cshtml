@@ -36,6 +36,13 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menü</li>
 
+                        <li class="sidebar-item">
+                            <a href="/Default/Index" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Ana Sayfa</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Banner" ? "active" : "")">
                             <a href="/Banner/Index" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>

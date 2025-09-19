@@ -1,0 +1,137 @@
+﻿@model CreateAppointmentDto
+@*
+    _DefaultAppointmentComponent
+*@
+
+<section id="appointment" class="appointment section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Randevu</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <form asp-controller="Default" asp-action="DefaultAppointmentCreate" method="post" role="form" class="php-email-form">
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <input type="text" asp-for="FullName" class="form-control" placeholder="Ad Soyad">
+                </div>
+                <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <input type="email" class="form-control" asp-for="Email" placeholder="E-posta">
+                </div>
+                <div class="col-md-4 form-group mt-3 mt-md-0">
+                    <input type="tel" class="form-control" asp-for="PhoneNumber" placeholder="Telefon Numarası">
+                </div>
+            </div>
+            <div class="row">
+
+                <!-- Gizli alanlar -->
+                <input type="hidden" asp-for="Date" id="HiddenDate" />
+                <input type="hidden" asp-for="Time" id="HiddenTime" />
+                <input type="hidden" name="SelectedAppointment" id="HiddenSelectedAppointment" />
+
+                <div class="col-md-4 form-group mt-3">
+                    <select asp-for="DepartmentId" id="DepartmentId" class="form-select">
+                        <option value="">Bölüm Seçin</option>
+                        @foreach (var item in ViewBag.departments)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-4 form-group mt-3">
+                    <select asp-for="DoctorId" id="DoctorId" class="form-select">
+                        <option value="">Lütfen Önce Bölüm Seçin</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group mt-3">
+                    <!-- id ve name sabitlenmeli -->
+                    <select id="AvailableAppointments" class="form-select">
+                        <option value="">Saatler listelenecek</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group mt-3">
+                <textarea class="form-control" asp-for="Message" rows="5" placeholder="Mesajınız (İsteğe Bağlı)"></textarea>
+            </div>
+            <div class="mt-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Randevu talebiniz başarıyla gönderildi. Teşekkür ederiz!</div>
+                <div class="text-center"><button type="submit">Randevu Oluştur</button></div>
+            </div>
+        </form>
+
+    </div>
+
+</section>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(function () {
+        $("#DepartmentId").change(function () {
+            let departmentId = $(this).val();
+            let doctorSelect = $("#DoctorId").empty().append('<option value="">Seçiniz</option>');
+            $("#AvailableAppointments").empty().append('<option value="">Uygun saatler burada listelenecek</option>');
+
+            if (!departmentId) return;
+
+            $.getJSON('/GeneralAppointment/GetDoctorsByDepartmentId', { departmentId })
+                .done(function (data) {
+                    $.each(data, (i, item) => doctorSelect.append(`<option value="${item.value}">${item.text}</option>`));
+                })
+                .fail(() => alert("Doktorlar yüklenirken hata oluştu."));
+        });
+
+        $("#DoctorId").change(function () {
+            let doctorId = $(this).val();
+            let departmentId = $("#DepartmentId").val();
+            let appointmentSelect = $("#AvailableAppointments").empty();
+
+            if (!doctorId || !departmentId) {
+                appointmentSelect.append('<option value="">Önce departman ve doktor seçiniz</option>');
+                return;
+            }
+
+            $.getJSON('/Default/DefaultAvailableAppointments', { departmentId, doctorId })
+                .done(function (res) {
+                    if (res.success && res.data.length > 0) {
+                        appointmentSelect.append('<option value="">Uygun saat seçiniz</option>');
+                        $.each(res.data, (i, item) => {
+                            let value = `${item.appointmentId}|${item.date}|${item.time}`;
+                            let text = `${item.date} - ${item.time}`;
+                            appointmentSelect.append(`<option value="${value}">${text}</option>`);
+                        });
+                    } else {
+                        appointmentSelect.append('<option value="">Uygun randevu bulunmuyor</option>');
+                    }
+                })
+                .fail(() => appointmentSelect.append('<option value="">Randevular yüklenirken hata oluştu</option>'));
+        });
+
+        $("#AvailableAppointments").change(function () {
+            let parts = $(this).val()?.split('|') || [];
+            $("#HiddenDate, #HiddenTime, #HiddenSelectedAppointment").val("");
+
+            if (parts.length === 3) {
+                let [id, dateStr, timeStr] = parts;
+                let [day, month, year] = dateStr.split('/');
+                let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                $("#HiddenDate").val(formattedDate);
+                $("#HiddenTime").val(timeStr);
+                $("#HiddenSelectedAppointment").val($(this).val());
+            }
+        });
+
+        $("form").submit(function (e) {
+            if (!$("#HiddenDate").val() || !$("#HiddenTime").val()) {
+                e.preventDefault();
+                alert("Lütfen uygun bir randevu saati seçiniz!");
+            }
+        });
+    });
+</script>
