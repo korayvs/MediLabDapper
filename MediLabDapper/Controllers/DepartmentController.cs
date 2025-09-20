@@ -27,6 +27,10 @@ namespace MediLabDapper.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDepartment(CreateDepartmentDto createDepartmentDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(createDepartmentDto);
+            }
             await _departmentRepository.CreateDepartmentAsync(createDepartmentDto);
             return RedirectToAction("Index");
         }
@@ -40,6 +44,10 @@ namespace MediLabDapper.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateDepartment(UpdateDepartmentDto updateDepartmentDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(updateDepartmentDto);
+            }
             await _departmentRepository.UpdateDepartmentAsync(updateDepartmentDto);
             return RedirectToAction("Index");
         }

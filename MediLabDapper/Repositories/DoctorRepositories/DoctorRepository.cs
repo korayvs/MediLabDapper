@@ -12,13 +12,13 @@ namespace MediLabDapper.Repositories.DoctorRepositories
 
         public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorsWithDepartmentAsync()
         {
-            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Doctors.Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId";
+            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Doctors.Description, SocialMedia1, SocialMedia2, SocialMedia3, SocialMedia4, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId";
             return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query);
         }
 
         public async Task<IEnumerable<ResultDoctorWithDepartmentDto>> AllDoctorsWithDepartmentByIdAsync(int departmentId)
         {
-            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Doctors.Description, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId where Doctors.DepartmentId = @DepartmentId";
+            var query = "select DoctorId, NameSurname, Doctors.ImageUrl, Doctors.Description, SocialMedia1, SocialMedia2, SocialMedia3, SocialMedia4, DepartmentName from Doctors Inner Join Departments On Doctors.DepartmentId = Departments.DepartmentId where Doctors.DepartmentId = @DepartmentId";
             var parameters = new DynamicParameters();
             parameters.Add("@DepartmentId", departmentId);
             return await _db.QueryAsync<ResultDoctorWithDepartmentDto>(query, parameters);
@@ -26,7 +26,7 @@ namespace MediLabDapper.Repositories.DoctorRepositories
 
         public async Task CreateDoctorAsync(CreateDoctorDto createDoctorDto)
         {
-            var query = "insert into doctors (namesurname, ImageUrl, description, departmentId) values (@NameSurname, @ImageUrl, @Description, @DepartmentId)";
+            var query = "insert into doctors (namesurname, ImageUrl, description, departmentId, SocialMedia1, SocialMedia2, SocialMedia3, SocialMedia4) values (@NameSurname, @ImageUrl, @Description, @DepartmentId, @SocialMedia1, @SocialMedia2, @SocialMedia3, @SocialMedia4)";
             var parameters = new DynamicParameters(createDoctorDto);
             await _db.ExecuteAsync(query, parameters);
         }
@@ -55,7 +55,7 @@ namespace MediLabDapper.Repositories.DoctorRepositories
 
         public async Task UpdateDoctorAsync(UpdateDoctorDto updateDoctorDto)
         {
-            var query = "update doctors set NameSurname = @NameSurname, ImageUrl = @ImageUrl, Description = @Description, DepartmentId = @DepartmentId where DoctorId = @DoctorId";
+            var query = "update doctors set NameSurname = @NameSurname, ImageUrl = @ImageUrl, Description = @Description, SocialMedia1 = @SocialMedia1, SocialMedia2 = @SocialMedia2, SocialMedia3 = @SocialMedia3, SocialMedia4 = @SocialMedia4, DepartmentId = @DepartmentId where DoctorId = @DoctorId";
             var parameters = new DynamicParameters(updateDoctorDto);
             await _db.ExecuteAsync(query, parameters);
         }

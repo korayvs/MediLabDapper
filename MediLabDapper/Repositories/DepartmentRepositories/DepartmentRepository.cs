@@ -15,8 +15,9 @@ namespace MediLabDapper.Repositories.DepartmentRepositories
 
         public async Task CreateDepartmentAsync(CreateDepartmentDto createDepartmentDto)
         {
-            string query = "insert into departments (departmentname, description) values (@DepartmentName, @Description)";
+            string query = "insert into departments (ImageUrl, departmentname, description) values (@ImageUrl, @DepartmentName, @Description)";
             var parameters = new DynamicParameters();
+            parameters.Add("@ImageUrl", createDepartmentDto.ImageUrl);
             parameters.Add("@DepartmentName", createDepartmentDto.DepartmentName);
             parameters.Add("@Description", createDepartmentDto.Description);
             var connection = _context.CreateConnection();
@@ -51,7 +52,7 @@ namespace MediLabDapper.Repositories.DepartmentRepositories
 
         public async Task UpdateDepartmentAsync(UpdateDepartmentDto updateDepartmentDto)
         {
-            string query = "update departments set DepartmentName = @DepartmentName, Description = @Description where DepartmentId = @DepartmentId";
+            string query = "update departments set ImageUrl = @ImageUrl, DepartmentName = @DepartmentName, Description = @Description where DepartmentId = @DepartmentId";
             var parameters = new DynamicParameters(updateDepartmentDto);
             var connection = _context.CreateConnection();
             await connection.ExecuteAsync(query, parameters);

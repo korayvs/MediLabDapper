@@ -1,7 +1,6 @@
 ﻿using MediLabDapper.Dtos.AppointmentDtos;
 using MediLabDapper.Repositories.AppointmentRepositories;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Core.Types;
 
 namespace MediLabDapper.Controllers
 {

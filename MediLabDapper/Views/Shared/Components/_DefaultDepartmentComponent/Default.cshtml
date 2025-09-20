@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ResultDepartmentDto>
+@*
+    _DefaultDepartmentComponent
+*@
+
+<section id="departments" class="departments section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Bölümler</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row">
+            <div class="col-lg-3">
+                <ul class="nav nav-tabs flex-column">
+
+                    @{
+                        int departments = 0;
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(departments == 0 ? "active show" : "")" data-bs-toggle="tab" href="#departments-tab-@item.DepartmentId">@item.DepartmentName</a>
+                        </li>
+                        departments++;
+                    }
+
+                </ul>
+            </div>
+            <div class="col-lg-9 mt-4 mt-lg-0">
+                <div class="tab-content">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="tab-pane @(departments == 0 ? "active show" : "")" id="departments-tab-@item.DepartmentId">
+                            <div class="row">
+                                <div class="col-lg-8 details order-2 order-lg-1">
+                                    <h3>@item.DepartmentName</h3>
+                                    <p>@item.Description</p>
+                                </div>
+                                <div class="col-lg-4 text-center order-1 order-lg-2">
+                                    <img src="@item.ImageUrl" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        departments++;
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>

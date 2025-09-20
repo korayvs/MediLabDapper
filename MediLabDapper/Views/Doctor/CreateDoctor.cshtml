@@ -37,7 +37,31 @@
                     <label class="form-label">Açıklama</label>
                     <textarea asp-for="Description" rows="3" class="form-control"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
-                </div>                
+                </div>      
+                
+                <div class="mb-3">
+                    <label class="form-label">Sosyal Medya - X</label>
+                    <input type="text" asp-for="SocialMedia1" class="form-control" />
+                    <span asp-validation-for="SocialMedia1" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sosyal Medya - Facebook</label>
+                    <input type="text" asp-for="SocialMedia2" class="form-control" />
+                    <span asp-validation-for="SocialMedia2" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sosyal Medya - Instagram</label>
+                    <input type="text" asp-for="SocialMedia3" class="form-control" />
+                    <span asp-validation-for="SocialMedia3" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sosyal Medya - LinkedIn</label>
+                    <input type="text" asp-for="SocialMedia4" class="form-control" />
+                    <span asp-validation-for="SocialMedia4" class="text-danger"></span>
+                </div>
 
                 <div class="mt-4 d-flex justify-content-between">
                     <a href="/Doctor/Index" class="btn btn-secondary px-4">Geri Dön</a>
