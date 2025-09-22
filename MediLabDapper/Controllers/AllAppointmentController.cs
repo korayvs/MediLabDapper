@@ -1,5 +1,4 @@
 ﻿using MediLabDapper.Dtos.AllAppointmentDtos;
-using MediLabDapper.Dtos.AppointmentDtos;
 using MediLabDapper.Repositories.AllAppointmentRepositories;
 using MediLabDapper.Repositories.AppointmentRepositories;
 using MediLabDapper.Repositories.DepartmentRepositories;

@@ -14,6 +14,12 @@
             <form method="post">
 
                 <div class="mb-3">
+                    <label class="form-label">Resim Url</label>
+                    <input type="text" asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label">Bölüm Adı</label>
                     <input type="text" asp-for="DepartmentName" class="form-control" />
                     <span asp-validation-for="DepartmentName" class="text-danger"></span>

@@ -31,8 +31,8 @@
                             <td>@item.NameSurname</td>
                             <td>@item.DepartmentName</td>
                             <td>
-                                @(item.Description.Length > 70
-                                    ? item.Description.Substring(0, 70) + "..."
+                                @(item.Description.Length > 35
+                                    ? item.Description.Substring(0, 35) + "..."
                                     : item.Description)
                             </td>                            
                             <td class="text-center">

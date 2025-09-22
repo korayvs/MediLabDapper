@@ -25,15 +25,10 @@
                     <input type="tel" class="form-control" asp-for="PhoneNumber" placeholder="Telefon Numarası">
                 </div>
             </div>
-            <div class="row">
-
-                <!-- Gizli alanlar -->
-                <input type="hidden" asp-for="Date" id="HiddenDate" />
-                <input type="hidden" asp-for="Time" id="HiddenTime" />
-                <input type="hidden" name="SelectedAppointment" id="HiddenSelectedAppointment" />
+            <div class="row">                
 
                 <div class="col-md-4 form-group mt-3">
-                    <select asp-for="DepartmentId" id="DepartmentId" class="form-select">
+                    <select asp-for="DepartmentId" item="DepartmentId" class="form-select">
                         <option value="">Bölüm Seçin</option>
                         @foreach (var item in ViewBag.departments)
                         {
@@ -47,11 +42,14 @@
                     </select>
                 </div>
                 <div class="col-md-4 form-group mt-3">
-                    <!-- id ve name sabitlenmeli -->
                     <select id="AvailableAppointments" class="form-select">
                         <option value="">Saatler listelenecek</option>
                     </select>
                 </div>
+
+                <input type="hidden" asp-for="Date" id="HiddenDate" />
+                <input type="hidden" asp-for="Time" id="HiddenTime" />
+                <input type="hidden" name="SelectedAppointment" id="HiddenSelectedAppointment" />
 
             </div>
 
@@ -70,68 +68,149 @@
 
 </section>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(function () {
+    $(document).ready(function () {
+
         $("#DepartmentId").change(function () {
-            let departmentId = $(this).val();
-            let doctorSelect = $("#DoctorId").empty().append('<option value="">Seçiniz</option>');
-            $("#AvailableAppointments").empty().append('<option value="">Uygun saatler burada listelenecek</option>');
+            var departmentId = $(this).val();
+            console.log("Seçilen departman ID:", departmentId);
 
-            if (!departmentId) return;
-
-            $.getJSON('/GeneralAppointment/GetDoctorsByDepartmentId', { departmentId })
-                .done(function (data) {
-                    $.each(data, (i, item) => doctorSelect.append(`<option value="${item.value}">${item.text}</option>`));
-                })
-                .fail(() => alert("Doktorlar yüklenirken hata oluştu."));
+            if (departmentId) {
+                $.ajax({
+                    url: '/AllAppointment/GetDoctorsByDepartmentId',
+                    type: 'GET',
+                    data: { departmentId: departmentId },
+                    success: function (data) {
+                        console.log("Gelen doktor verileri:", data);
+                        var doctorSelect = $("#DoctorId");
+                        doctorSelect.empty();
+                        doctorSelect.append('<option value="">Seçiniz</option>');
+                        $.each(data, function (index, item) {
+                            doctorSelect.append('<option value="' + item.value + '">' + item.text + '</option>');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Doktor getirme hatası:", error);
+                        console.error("Status:", status);
+                        console.error("Response:", xhr.responseText);
+                    }
+                });
+            } else {
+                $("#DoctorId").empty().append('<option value="">Seçiniz</option>');
+                $("#AvailableAppointments").empty().append('<option value="">Uygun saatler burada listelenecek</option>');
+            }
         });
 
         $("#DoctorId").change(function () {
-            let doctorId = $(this).val();
-            let departmentId = $("#DepartmentId").val();
-            let appointmentSelect = $("#AvailableAppointments").empty();
+            var doctorId = $(this).val();
+            var departmentId = $("#DepartmentId").val();
 
-            if (!doctorId || !departmentId) {
-                appointmentSelect.append('<option value="">Önce departman ve doktor seçiniz</option>');
-                return;
-            }
+            console.log("Seçilen doktor ID:", doctorId);
+            console.log("Seçilen departman ID:", departmentId);
 
-            $.getJSON('/Default/DefaultAvailableAppointments', { departmentId, doctorId })
-                .done(function (res) {
-                    if (res.success && res.data.length > 0) {
-                        appointmentSelect.append('<option value="">Uygun saat seçiniz</option>');
-                        $.each(res.data, (i, item) => {
-                            let value = `${item.appointmentId}|${item.date}|${item.time}`;
-                            let text = `${item.date} - ${item.time}`;
-                            appointmentSelect.append(`<option value="${value}">${text}</option>`);
-                        });
-                    } else {
-                        appointmentSelect.append('<option value="">Uygun randevu bulunmuyor</option>');
+            if (doctorId && departmentId) {
+                console.log("AJAX isteği gönderiliyor...");
+                $.ajax({
+                    url: '/Default/DefaultAvailableAppointments',
+                    type: 'GET',
+                    data: { departmentId: departmentId, doctorId: doctorId },
+                    beforeSend: function () {
+                        console.log("İstek gönderiliyor...");
+                        $("#AvailableAppointments").empty().append('<option value="">Yükleniyor...</option>');
+                    },
+                    // Inside $("#DoctorId").change AJAX success:
+                    success: function (data) {
+                        console.log("Gelen randevu verileri:", data);
+                        var availableSelect = $("#AvailableAppointments");
+                        availableSelect.empty();
+                        $("#HiddenDate").val(''); // Clear hidden fields when doctor changes
+                        $("#HiddenTime").val('');
+                        // If you add SelectedAppointment hidden input, clear it too:
+                        // $("#HiddenSelectedAppointment").val('');
+
+                        if (data && data.length > 0) {
+                            availableSelect.append('<option value="">Uygun saat seçiniz</option>');
+                            $.each(data, function (index, item) {
+                                // item from server is like: { appointmentId: 1, date: "12/12/2023", time: "10:00", ... }
+                                var optionValue = item.appointmentId + '|' + item.date + '|' + item.time; // e.g., "1|12.12.2023|10:00"
+                                var optionText = item.date + ' - ' + item.time; // e.g., "12/12/2023 - 10:00"
+                                availableSelect.append('<option value="' + optionValue + '">' + optionText + '</option>');
+                            });
+                        } else {
+                            availableSelect.append('<option value="">Bu doktor için uygun randevu bulunmuyor</option>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Randevu getirme hatası:", error);
+                        console.error("Status:", status);
+                        console.error("Response Text:", xhr.responseText);
+                        console.error("Status Code:", xhr.status);
+
+                        $("#AvailableAppointments").empty().append('<option value="">Hata oluştu</option>');
                     }
-                })
-                .fail(() => appointmentSelect.append('<option value="">Randevular yüklenirken hata oluştu</option>'));
-        });
-
-        $("#AvailableAppointments").change(function () {
-            let parts = $(this).val()?.split('|') || [];
-            $("#HiddenDate, #HiddenTime, #HiddenSelectedAppointment").val("");
-
-            if (parts.length === 3) {
-                let [id, dateStr, timeStr] = parts;
-                let [day, month, year] = dateStr.split('/');
-                let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-                $("#HiddenDate").val(formattedDate);
-                $("#HiddenTime").val(timeStr);
-                $("#HiddenSelectedAppointment").val($(this).val());
-            }
-        });
-
-        $("form").submit(function (e) {
-            if (!$("#HiddenDate").val() || !$("#HiddenTime").val()) {
-                e.preventDefault();
-                alert("Lütfen uygun bir randevu saati seçiniz!");
+                });
+            } else {
+                $("#AvailableAppointments").empty().append('<option value="">Önce departman ve doktor seçiniz</option>');
             }
         });
     });
+
+    $("#AvailableAppointments").change(function () {
+        var selectedValue = $(this).val(); // Expected: "appointmentId|dd.MM.yyyy|hh:mm"
+        console.log("Seçilen randevu (raw value):", selectedValue);
+
+        $("#HiddenDate").val('');
+        $("#HiddenTime").val('');
+        $("#HiddenSelectedAppointment").val(''); // Assuming you have this hidden input
+
+        if (selectedValue && selectedValue.includes('|')) {
+            var parts = selectedValue.split('|');
+            if (parts.length === 3) {
+                var appointmentId = parts[0];
+                var dateStr = parts[1];       // "dd.MM.yyyy", e.g., "12.12.2023"
+                var timeStr = parts[2];       // "hh:mm"
+
+                // Convert date "dd.MM.yyyy" to "yyyy-MM-dd"
+                var dateParts = dateStr.split('.'); // <--- CHANGE THIS LINE
+                if (dateParts.length === 3) {
+                    var day = dateParts[0].padStart(2, '0');
+                    var month = dateParts[1].padStart(2, '0');
+                    var year = dateParts[2];
+                    var formattedDate = year + '-' + month + '-' + day;
+
+                    $("#HiddenDate").val(formattedDate);
+                    $("#HiddenTime").val(timeStr);
+                    $("#HiddenSelectedAppointment").val(selectedValue); // Populate the composite value here
+
+                    console.log("HiddenDate populated with:", formattedDate);
+                    console.log("HiddenTime populated with:", timeStr);
+                    console.log("HiddenSelectedAppointment populated with:", selectedValue);
+                } else {
+                    console.error("Date part of selected value is not in dd.MM.yyyy format or split incorrectly:", dateStr);
+                }
+            } else {
+                console.error("Selected appointment value format is incorrect (expected 3 parts):", selectedValue);
+            }
+        } else {
+            if (selectedValue) {
+                console.log("Placeholder or invalid option selected. Clearing Date/Time.");
+            }
+        }
+    });
+    // Form submit öncesi kontrol
+    $("form").submit(function (e) {
+        var selectedAppointment = $("#AvailableAppointments").val();
+        var hiddenDate = $("#HiddenDate").val();
+        var hiddenTime = $("#HiddenTime").val();
+
+        if (!selectedAppointment || !hiddenDate || !hiddenTime) {
+            e.preventDefault();
+            alert("Lütfen uygun bir randevu saati seçiniz!");
+            return false;
+        }
+
+        console.log("Form gönderiliyor - Date:", hiddenDate, "Time:", hiddenTime);
+    });
+
 </script>
