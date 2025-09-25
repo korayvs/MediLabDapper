@@ -2,6 +2,8 @@
 
 Bu proje, bir hastanenin sunduğu hizmetleri, bölümlerini ve uzman hekimlerini tanıtan; aynı zamanda çevrim içi randevu alma imkânı sağlayan dinamik bir web platformudur.
 
+<br>
+
 ## ✨ **Projenin Öne Çıkan Özellikleri**
 
 ### **Randevu Yönetimi**
