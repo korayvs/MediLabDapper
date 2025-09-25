@@ -4,7 +4,7 @@ Bu proje, bir hastanenin sunduğu hizmetleri, bölümlerini ve uzman hekimlerini
 
 ## ✨ **Projenin Öne Çıkan Özellikleri**
 
-### **Randevu Yönetimi**
+### 🔎 **Randevu Yönetimi**
 
 - Hastane hizmetleri, klinikler ve doktor kadrosunun ayrıntılı tanıtımı
 
