@@ -48,6 +48,8 @@ Bu proje, bir hastanenin sunduğu hizmetleri, bölümlerini ve uzman hekimlerini
 
 - Dinamik ve hızlı kullanıcı deneyimi için AJAX tabanlı etkileşimler
 
+<br>
+
 Bu proje, modern yazılım mimarisi ve kullanıcı dostu arayüzü ile hem hastane yönetimi hem de kullanıcı tarafı için güçlü bir çözüm sunar.
 
 <br>
