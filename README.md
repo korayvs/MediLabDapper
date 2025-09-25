@@ -2,8 +2,6 @@
 
 Bu proje, bir hastanenin sunduğu hizmetleri, bölümlerini ve uzman hekimlerini tanıtan; aynı zamanda çevrim içi randevu alma imkânı sağlayan dinamik bir web platformudur.
 
-<br>
-
 ## ✨ **Projenin Öne Çıkan Özellikleri**
 
 ### **Randevu Yönetimi**
@@ -52,7 +50,7 @@ Bu proje, bir hastanenin sunduğu hizmetleri, bölümlerini ve uzman hekimlerini
 
 Bu proje, modern yazılım mimarisi ve kullanıcı dostu arayüzü ile hem hastane yönetimi hem de kullanıcı tarafı için güçlü bir çözüm sunar.
 
-<br> <br>
+<br>
 
 ## 🏠 **Kullanıcı Arayüzü(UI)**
 
@@ -77,7 +75,7 @@ Bu proje, modern yazılım mimarisi ve kullanıcı dostu arayüzü ile hem hasta
 <img width="1868" height="814" alt="home7" src="https://github.com/user-attachments/assets/e29eccd8-7f6d-40ed-8350-28b946b70efe" />
 <br><br>
 <img width="1885" height="897" alt="home8" src="https://github.com/user-attachments/assets/9c9e54dc-a6fd-42ac-9bd1-15c82e8f3d84" />
-<br><br>
+<br>
 
 ### 🔑 **Admin Paneli**
 
