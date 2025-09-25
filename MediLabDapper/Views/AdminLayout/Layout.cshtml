@@ -33,78 +33,79 @@
                     </div>
                 </div>
                 <div class="sidebar-menu">
-                    <ul class="menu">
-                        <li class="sidebar-title">Menü</li>
+                    <ul class="menu">                        
 
                         <li class="sidebar-item">
                             <a href="/Default/Index" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
+                                <i class="bi bi-house-door-fill"></i>
                                 <span>Ana Sayfa</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Banner" ? "active" : "")">
-                            <a href="/Banner/Index" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Öne Çıkan Alan</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Appointment" ? "active" : "")">
-                            <a href="/Appointment/Index" class='sidebar-link'>
-                                <i class="bi bi-stack"></i>
-                                <span>Randevular</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "AllAppointment" ? "active" : "")">
-                            <a href="/AllAppointment/Index" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>Açık Randevular</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "About" ? "active" : "")">
-                            <a href="/About/Index" class='sidebar-link'>
-                                <i class="bi bi-collection-fill"></i>
-                                <span>Hakkımızda</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Service" ? "active" : "")">
-                            <a href="/Service/Index" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Hizmetler</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-title">Forms &amp; Tables</li>
+                        <hr class="sidebar-divider" />
 
                         <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Department" ? "active" : "")">
                             <a href="/Department/Index" class='sidebar-link'>
-                                <i class="bi bi-hexagon-fill"></i>
+                                <i class="bi bi-diagram-3-fill"></i>
                                 <span>Bölümler</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Doctor" ? "active" : "")">
                             <a href="/Doctor/Index" class='sidebar-link'>
-                                <i class="bi bi-file-earmark-medical-fill"></i>
+                                <i class="bi bi-person-badge-fill"></i>
                                 <span>Doktorlar</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "AllAppointment" ? "active" : "")">
+                            <a href="/AllAppointment/Index" class='sidebar-link'>
+                                <i class="bi bi-calendar-week-fill"></i>
+                                <span>Doktor Randevuları</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Appointment" ? "active" : "")">
+                            <a href="/Appointment/Index" class='sidebar-link'>
+                                <i class="bi bi-calendar-check-fill"></i>
+                                <span>Hasta Randevuları</span>
+                            </a>
+                        </li>
+
+                        <hr class="sidebar-divider" />
+
+                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Banner" ? "active" : "")">
+                            <a href="/Banner/Index" class='sidebar-link'>
+                                <i class="bi bi-image-fill"></i>
+                                <span>Öne Çıkan Alan</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "About" ? "active" : "")">
+                            <a href="/About/Index" class='sidebar-link'>
+                                <i class="bi bi-info-circle-fill"></i>
+                                <span>Hakkımızda</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Service" ? "active" : "")">
+                            <a href="/Service/Index" class='sidebar-link'>
+                                <i class="bi bi-briefcase-fill"></i>
+                                <span>Hizmetler</span>
+                            </a>
+                        </li>                
+                        
+                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Testimonial" ? "active" : "")">
+                            <a href="/Testimonial/Index" class='sidebar-link'>
+                                <i class="bi bi-chat-quote-fill"></i>
+                                <span>Değerlendirmeler</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Contact" ? "active" : "")">
                             <a href="/Contact/Index" class='sidebar-link'>
-                                <i class="bi bi-pen-fill"></i>
+                                <i class="bi bi-envelope-fill"></i>
                                 <span>İletişim</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item @(ViewContext.RouteData.Values["controller"].ToString() == "Testimonial" ? "active" : "")">
-                            <a href="/Testimonial/Index" class='sidebar-link'>
-                                <i class="bi bi-grid-1x2-fill"></i>
-                                <span>Değerlendirmeler</span>
                             </a>
                         </li>
 
